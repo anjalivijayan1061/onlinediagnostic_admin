@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:onlinediagnostic_admin/ui/screens/home_screen_sectios/nurse_management_section.dart';
+import 'package:onlinediagnostic_admin/ui/screens/home_screen_sectios/order_management_section.dart';
+import 'package:onlinediagnostic_admin/ui/screens/home_screen_sectios/test_management_section.dart';
+import 'package:onlinediagnostic_admin/ui/screens/home_screen_sectios/user_managment_section.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,7 +17,11 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
-    tabController = TabController(length: 4, vsync: this);
+    tabController = TabController(
+      length: 5,
+      vsync: this,
+      initialIndex: 3, //change the index to currently working section's index
+    );
     super.initState();
   }
 
@@ -31,15 +39,10 @@ class _HomeScreenState extends State<HomeScreen>
           Container(
             color: Colors.red,
           ),
-          Container(
-            color: Colors.green,
-          ),
-          Container(
-            color: Colors.yellow,
-          ),
-          Container(
-            color: Colors.amber,
-          ),
+          OrderManagmentSection(),
+          TestManagmentSection(),
+          NurseManagmentSection(),
+          UserManagmentSection(),
         ],
       ),
       drawer: Material(
@@ -112,6 +115,19 @@ class _HomeScreenState extends State<HomeScreen>
                     Navigator.pop(context);
                   },
                   isSelected: tabController.index == 3,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                CustomDrawerButton(
+                  label: "User Management",
+                  iconData: Icons.person,
+                  onPressed: () {
+                    tabController.animateTo(4);
+                    setState(() {});
+                    Navigator.pop(context);
+                  },
+                  isSelected: tabController.index == 4,
                 ),
               ],
             ),
