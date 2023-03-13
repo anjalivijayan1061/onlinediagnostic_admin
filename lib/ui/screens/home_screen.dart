@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:onlinediagnostic_admin/ui/screens/home_screen_sectios/nurse_management_section.dart';
-import 'package:onlinediagnostic_admin/ui/screens/home_screen_sectios/order_management_section.dart';
-import 'package:onlinediagnostic_admin/ui/screens/home_screen_sectios/test_management_section.dart';
-import 'package:onlinediagnostic_admin/ui/screens/home_screen_sectios/user_managment_section.dart';
+import 'package:onlinediagnostic_admin/ui/screens/home_screen_sections/nurse_management_section.dart';
+import 'package:onlinediagnostic_admin/ui/screens/home_screen_sections/order_management_section.dart';
+import 'package:onlinediagnostic_admin/ui/screens/home_screen_sections/test_management_section.dart';
+import 'package:onlinediagnostic_admin/ui/screens/home_screen_sections/user_management_section.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen>
     tabController = TabController(
       length: 5,
       vsync: this,
-      initialIndex: 3, //change the index to currently working section's index
+      initialIndex: 2, //change the index to currently working section's index
     );
     super.initState();
   }
@@ -39,10 +39,10 @@ class _HomeScreenState extends State<HomeScreen>
           Container(
             color: Colors.red,
           ),
-          OrderManagmentSection(),
-          TestManagmentSection(),
+          OrderManagementSection(),
+          TestManagementSection(),
           NurseManagmentSection(),
-          UserManagmentSection(),
+          UserManagementSection(),
         ],
       ),
       drawer: Material(

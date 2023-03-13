@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onlinediagnostic_admin/ui/screens/home_screen.dart';
+import 'package:onlinediagnostic_admin/ui/screens/login_screen.dart';
 
 void main() {
   runApp(const MyApp());

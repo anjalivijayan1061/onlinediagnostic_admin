@@ -1,7 +1,9 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 
-class UserManagmentSection extends StatelessWidget {
-  const UserManagmentSection({super.key});
+class UserManagementSection extends StatelessWidget {
+  const UserManagementSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,28 +13,28 @@ class UserManagmentSection extends StatelessWidget {
         child: ListView(
           children: [
             MemberCard(
-              title: 'john',
+              name: 'John',
               age: '35',
               address: 'K.V House Ozhakrome,p.o morazha',
               test: 'Haemoglobin',
             ),
             MemberCard(
-                title: 'Rani',
+                name: 'Rani',
                 age: '29',
                 address: 'Rani Villas Kanul,p.o.Morazha ',
                 test: ' Test 1 Blood Pressure,Test 2 Cholestrol'),
             MemberCard(
-                title: 'Lena',
+                name: 'Lena',
                 age: '15',
                 address: 'Kunnul House Vellikeel,p.o.cherukunnu',
                 test: 'Test 1 Blood Count'),
             MemberCard(
-                title: 'Roshan',
+                name: 'Roshan',
                 age: '24',
                 address: 'Roshni Vilas Keecheri p.o.keecheri',
                 test: 'Test 1 Glucose'),
             MemberCard(
-                title: 'Joseph',
+                name: 'Joseph',
                 age: '65',
                 address: 'Kalyani Vilas Kuthuparamb p.o.kuthuparamb',
                 test: 'Test 1 TSH \nTest 2 Cholostrol \nTest 3 Glucose'),
@@ -44,10 +46,10 @@ class UserManagmentSection extends StatelessWidget {
 }
 
 class MemberCard extends StatelessWidget {
-  final String title, age, address, test;
+  final String name, age, address, test;
   const MemberCard({
     Key? key,
-    required this.title,
+    required this.name,
     required this.age,
     required this.address,
     required this.test,
@@ -75,7 +77,9 @@ class MemberCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        title,
+                        name,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                     ],
                   ),
