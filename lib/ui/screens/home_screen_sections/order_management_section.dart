@@ -10,7 +10,10 @@ class OrderManagementSection extends StatelessWidget {
       child: SizedBox(
         width: 1000,
         child: ListView(
-          children: [
+          children: const [
+            SizedBox(
+              height: 5,
+            ),
             OrderCard(
               name: 'John',
               age: '35',
@@ -18,6 +21,9 @@ class OrderManagementSection extends StatelessWidget {
               date: '1/03/2022',
               time: '8.00 Am - 10.00 Am',
               status: 'pending',
+            ),
+            SizedBox(
+              height: 5,
             ),
             OrderCard(
               name: 'Rani',
@@ -27,6 +33,9 @@ class OrderManagementSection extends StatelessWidget {
               time: '8.00 Am - 10.00 Am',
               status: 'pending',
             ),
+            SizedBox(
+              height: 5,
+            ),
             OrderCard(
               name: 'Lena',
               age: '15',
@@ -35,6 +44,9 @@ class OrderManagementSection extends StatelessWidget {
               time: '10.00 Am - 12.00 Pm',
               status: 'pending',
             ),
+            SizedBox(
+              height: 5,
+            ),
             OrderCard(
               name: 'Roshan',
               age: '35',
@@ -42,6 +54,9 @@ class OrderManagementSection extends StatelessWidget {
               date: '2/03/2022',
               time: '12.00 Pm - 4.00 Pm',
               status: 'completed',
+            ),
+            SizedBox(
+              height: 5,
             ),
             OrderCard(
               name: 'Joseph',
@@ -72,31 +87,29 @@ class OrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(15),
-      child: Material(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-            color: Colors.black26,
-            width: 1,
-          ),
+    return Material(
+      color: Colors.white,
+      shape: const RoundedRectangleBorder(
+        side: BorderSide(
+          color: Colors.black26,
+          width: 1,
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Row(
-            children: [
-              Column(
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        name,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                    ],
+                  Text(
+                    name,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  const SizedBox(
+                    height: 5,
                   ),
                   Row(
                     children: [
@@ -106,25 +119,44 @@ class OrderCard extends StatelessWidget {
                       Text(gender),
                     ],
                   ),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   Row(
                     children: [
                       Text(date),
                       Text(time),
                     ],
                   ),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   Text(status),
                 ],
               ),
-              Wrap(
-                children: [
-                  CustomButton(label: 'prescription', onTap: () {}),
-                  CustomButton(label: 'prescription', onTap: () {}),
-                  CustomButton(label: 'prescription', onTap: () {}),
-                  CustomButton(label: 'prescription', onTap: () {}),
-                ],
-              ),
-            ],
-          ),
+            ),
+            Column(
+              children: [
+                Wrap(
+                  spacing: 10,
+                  children: [
+                    CustomButton(label: 'prescription', onTap: () {}),
+                    CustomButton(label: 'prescription', onTap: () {}),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Wrap(
+                  spacing: 10,
+                  children: [
+                    CustomButton(label: 'prescription', onTap: () {}),
+                    CustomButton(label: 'prescription', onTap: () {}),
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

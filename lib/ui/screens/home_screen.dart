@@ -20,20 +20,38 @@ class _HomeScreenState extends State<HomeScreen>
     tabController = TabController(
       length: 5,
       vsync: this,
-      initialIndex: 2, //change the index to currently working section's index
+      initialIndex: 3, //change the index to currently working section's index
     );
     super.initState();
+  }
+
+  String getName() {
+    switch (tabController.index) {
+      case 0:
+        return 'Dashboard';
+      case 1:
+        return 'Order Management';
+      case 2:
+        return 'Test Management';
+      case 3:
+        return 'Nurse Management';
+      case 4:
+        return 'User Management';
+      default:
+        return '';
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Section Name",
+        title: Text(
+          getName(),
         ),
       ),
       body: TabBarView(
+        physics: const NeverScrollableScrollPhysics(),
         controller: tabController,
         children: [
           Container(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/custom_button.dart';
 
 class NurseManagmentSection extends StatelessWidget {
   const NurseManagmentSection({super.key});
@@ -8,37 +9,68 @@ class NurseManagmentSection extends StatelessWidget {
     return Center(
       child: SizedBox(
         width: 1000,
-        child: ListView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            NurseCard(
-              Name: 'John',
-              age: 'Age-35',
-              id: '45',
-              phoneno: '9586321458',
+            const SizedBox(
+              height: 30,
             ),
-            NurseCard(
-              Name: 'Rani',
-              age: 'Age-28',
-              id: '34',
-              phoneno: '9581022558',
+            CustomButton(
+              label: 'Add Nurse',
+              onTap: () {},
             ),
-            NurseCard(
-              Name: 'Manu',
-              age: 'Age-27',
-              id: '85',
-              phoneno: '8596325458',
+            const SizedBox(
+              height: 10,
             ),
-            NurseCard(
-              Name: 'Meera',
-              age: 'Age-23',
-              id: '92',
-              phoneno: '9586321415',
-            ),
-            NurseCard(
-              Name: 'Janvi',
-              age: 'Age-22',
-              id: '98',
-              phoneno: '9859621458',
+            Expanded(
+              child: ListView(
+                shrinkWrap: true,
+                children: const [
+                  NurseCard(
+                    name: 'John',
+                    age: 'Age-35',
+                    id: '45',
+                    phoneno: '9586321458',
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  NurseCard(
+                    name: 'Rani',
+                    age: 'Age-28',
+                    id: '34',
+                    phoneno: '9581022558',
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  NurseCard(
+                    name: 'Manu',
+                    age: 'Age-27',
+                    id: '85',
+                    phoneno: '8596325458',
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  NurseCard(
+                    name: 'Meera',
+                    age: 'Age-23',
+                    id: '92',
+                    phoneno: '9586321415',
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  NurseCard(
+                    name: 'Janvi',
+                    age: 'Age-22',
+                    id: '98',
+                    phoneno: '9859621458',
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -48,10 +80,10 @@ class NurseManagmentSection extends StatelessWidget {
 }
 
 class NurseCard extends StatelessWidget {
-  final String Name, age, id, phoneno;
+  final String name, age, id, phoneno;
   const NurseCard({
     Key? key,
-    required this.Name,
+    required this.name,
     required this.age,
     required this.id,
     required this.phoneno,
@@ -59,44 +91,63 @@ class NurseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(15),
-          child: Material(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                color: Colors.black26,
-                width: 1,
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(15),
+    return Material(
+      color: Colors.white,
+      shape: const RoundedRectangleBorder(
+        side: BorderSide(
+          color: Colors.black26,
+          width: 1,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Row(
+          children: [
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        Name,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                    ],
+                  Text(
+                    name,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  const SizedBox(
+                    height: 5,
                   ),
                   Text(age),
-                  Text(id),
-                  Text(phoneno),
-                  Wrap(
-                    children: [],
+                  const SizedBox(
+                    height: 5,
                   ),
+                  Text(id),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(phoneno),
                 ],
               ),
             ),
-          ),
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                CustomButton(
+                  label: 'Edit',
+                  onTap: () {},
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                CustomButton(
+                  label: 'Delete',
+                  onTap: () {},
+                  buttonColor: Colors.redAccent,
+                ),
+              ],
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

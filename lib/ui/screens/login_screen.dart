@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget {
           color: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
-            side: BorderSide(color: Colors.grey, width: 0.5),
+            side: const BorderSide(color: Colors.grey, width: 0.5),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Center(
+                const Center(
                   child: Branding(),
                 ),
                 const SizedBox(
@@ -78,7 +78,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
                 CustomButton(
