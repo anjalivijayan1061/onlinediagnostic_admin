@@ -61,9 +61,11 @@ class _HomeScreenState extends State<HomeScreen>
       case 4:
         return 'Patient Management';
       case 5:
-        return 'Complaints';
+        return 'Nurses Complaints';
       case 6:
-        return 'Feedbacks';
+        return 'Patients Complaints';
+      case 7:
+        return 'Suggestions';
       default:
         return '';
     }

@@ -17,13 +17,6 @@ class NurseBloc extends Bloc<NurseEvent, NurseState> {
 
       try {
         if (event is GetAllNurseEvent) {
-          // List<dynamic> temp = await supabaseClient.rpc(
-          //   'get_desk_users',
-          //   params: {
-          //     'query': event.query ?? '',
-          //   },
-          // );
-
           List<dynamic> temp = event.query != null
               ? await queryTable
                   .select()
@@ -34,7 +27,7 @@ class NurseBloc extends Bloc<NurseEvent, NurseState> {
           List<User> users =
               await supabaseClient.auth.admin.listUsers(perPage: 1000);
 
-          List<Map<String, dynamic>> desks = temp.map((e) {
+          List<Map<String, dynamic>> nurses = temp.map((e) {
             Map<String, dynamic> element = e as Map<String, dynamic>;
 
             User? user =
@@ -47,7 +40,7 @@ class NurseBloc extends Bloc<NurseEvent, NurseState> {
             return element;
           }).toList();
 
-          emit(NurseSuccessState(nurses: desks));
+          emit(NurseSuccessState(nurses: nurses));
         } else if (event is AddNurseEvent) {
           UserResponse userDetails = await supabaseClient.auth.admin.createUser(
             AdminUserAttributes(

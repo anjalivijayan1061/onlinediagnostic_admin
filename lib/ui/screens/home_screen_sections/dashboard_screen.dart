@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/custom_action_button.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/dashcard.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -17,6 +18,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CustomActionButton(
+                  mainAxisSize: MainAxisSize.min,
+                  label: 'Reload',
+                  onPressed: () {},
+                  iconData: Icons.refresh_outlined,
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             Wrap(
               spacing: 20,
               runSpacing: 20,
