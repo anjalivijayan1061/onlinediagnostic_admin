@@ -28,7 +28,7 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
 
           emit(PatientSuccessState(patients: patients));
         } else if (event is AddPatientEvent) {
-          await supabaseClient.from('patients').insert({
+          await queryTable.insert({
             'name': event.name,
             'gender': event.gender,
             'phone': event.phone,
@@ -37,13 +37,13 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
             'city': event.city,
             'district': event.district,
             'state': event.state,
-            'latitude': 11.874247600884601,
-            'longitude': 75.37920554045077,
+            'latitude': null,
+            'longitude': null,
             'user_id': null,
           });
           add(GetAllPatientEvent());
         } else if (event is EditPatientEvent) {
-          await supabaseClient.from('patients').update({
+          await queryTable.update({
             'name': event.name,
             'gender': event.gender,
             'phone': event.phone,
@@ -58,10 +58,7 @@ class PatientBloc extends Bloc<PatientEvent, PatientState> {
           }).eq('id', event.patientId);
           add(GetAllPatientEvent());
         } else if (event is DeletePatientEvent) {
-          await supabaseClient
-              .from('patients')
-              .delete()
-              .eq('id', event.patientId);
+          await queryTable.delete().eq('id', event.patientId);
           add(GetAllPatientEvent());
         }
       } catch (e, s) {

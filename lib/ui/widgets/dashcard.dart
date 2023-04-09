@@ -27,11 +27,11 @@ class DashCard extends StatelessWidget {
             bottom: 10,
           ),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Icon(
                 iconData,
-                color: Colors.blue,
+                color: const Color(0xFF719BE1),
                 size: 40,
               ),
               const SizedBox(
