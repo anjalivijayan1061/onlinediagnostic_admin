@@ -1,40 +1,84 @@
 import 'package:flutter/material.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/custom_card.dart';
 
 class CustomButton extends StatelessWidget {
-  final Color? buttonColor;
   final String label;
   final Function() onTap;
+  final IconData? icon;
+  final Color? buttonColor, iconColor, labelColor;
+  final double elevation;
+  final bool isLoading;
   const CustomButton({
     Key? key,
-    this.buttonColor,
     required this.label,
     required this.onTap,
+    this.icon,
+    this.buttonColor,
+    this.iconColor,
+    this.labelColor,
+    this.elevation = 0,
+    this.isLoading = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: buttonColor ?? Colors.blue,
-      borderRadius: BorderRadius.circular(10),
+    return CustomCard(
+      color: buttonColor ?? Colors.white,
       child: InkWell(
-        borderRadius: BorderRadius.circular(15),
-        onTap: onTap,
+        onTap: isLoading ? null : onTap,
+        borderRadius: BorderRadius.circular(0),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 15,
+          padding: EdgeInsets.only(
+            left: 20,
+            right: icon != null ? 10 : 20,
+            top: 12.5,
+            bottom: 12.5,
           ),
           child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                label,
-                style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: icon != null
+                ? MainAxisAlignment.spaceBetween
+                : MainAxisAlignment.center,
+            children: isLoading
+                ? [
+                    Transform.scale(
+                      scale: 0.7,
+                      child: CircularProgressIndicator(
+                        color: labelColor,
+                        backgroundColor: labelColor?.withOpacity(.2),
+                      ),
                     ),
-              ),
-            ],
+                    // SizedBox(
+                    //   width: 50,
+                    //   child: ClipRRect(
+                    //     borderRadius: BorderRadius.circular(30),
+                    //     child: Center(
+                    //       child: CircularProgressIndicator(
+                    //         color: labelColor,
+                    //         backgroundColor: labelColor?.withOpacity(.2),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )
+                  ]
+                : [
+                    Text(
+                      label,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: labelColor,
+                          ),
+                    ),
+                    SizedBox(
+                      width: icon != null ? 5 : 0,
+                    ),
+                    icon != null
+                        ? Icon(
+                            icon!,
+                            color: iconColor,
+                            size: 20,
+                          )
+                        : const SizedBox()
+                  ],
           ),
         ),
       ),

@@ -1,151 +1,138 @@
 import 'package:flutter/material.dart';
-import 'package:onlinediagnostic_admin/ui/widgets/custom_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onlinediagnostic_admin/blocs/nurse/nurse_bloc.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/custom_action_button.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/custom_alert_dialog.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/custom_progress_indicator.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/custom_search.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/nurse_management/add_edit_nurse_dialog.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/nurse_management/nurse_card.dart';
 
-class NurseManagmentSection extends StatelessWidget {
+class NurseManagmentSection extends StatefulWidget {
   const NurseManagmentSection({super.key});
+
+  @override
+  State<NurseManagmentSection> createState() => _NurseManagmentSectionState();
+}
+
+class _NurseManagmentSectionState extends State<NurseManagmentSection> {
+  NurseBloc nurseBloc = NurseBloc();
+
+  @override
+  void initState() {
+    nurseBloc.add(GetAllNurseEvent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
         width: 1000,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(
-              height: 30,
-            ),
-            CustomButton(
-              label: 'Add Nurse',
-              onTap: () {},
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: ListView(
-                shrinkWrap: true,
-                children: const [
-                  NurseCard(
-                    name: 'John',
-                    age: 'Age-35',
-                    id: '45',
-                    phoneno: '9586321458',
+        child: BlocProvider<NurseBloc>.value(
+          value: nurseBloc,
+          child: BlocConsumer<NurseBloc, NurseState>(
+            listener: (context, state) {
+              if (state is NurseFailureState) {
+                showDialog(
+                  context: context,
+                  builder: (context) => CustomAlertDialog(
+                    title: 'Failure',
+                    message: state.message,
+                    primaryButtonLabel: 'Ok',
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  NurseCard(
-                    name: 'Rani',
-                    age: 'Age-28',
-                    id: '34',
-                    phoneno: '9581022558',
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  NurseCard(
-                    name: 'Manu',
-                    age: 'Age-27',
-                    id: '85',
-                    phoneno: '8596325458',
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  NurseCard(
-                    name: 'Meera',
-                    age: 'Age-23',
-                    id: '92',
-                    phoneno: '9586321415',
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  NurseCard(
-                    name: 'Janvi',
-                    age: 'Age-22',
-                    id: '98',
-                    phoneno: '9859621458',
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class NurseCard extends StatelessWidget {
-  final String name, age, id, phoneno;
-  const NurseCard({
-    Key? key,
-    required this.name,
-    required this.age,
-    required this.id,
-    required this.phoneno,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      shape: const RoundedRectangleBorder(
-        side: BorderSide(
-          color: Colors.black26,
-          width: 1,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                );
+              }
+            },
+            builder: (context, state) {
+              return Column(
                 children: [
-                  Text(
-                    name,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 20),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomSearch(
+                          onSearch: (search) {
+                            nurseBloc.add(GetAllNurseEvent(query: search));
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      CustomActionButton(
+                        iconData: Icons.add,
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => BlocProvider<NurseBloc>.value(
+                              value: nurseBloc,
+                              child: const AddEditNurseDialog(),
+                            ),
+                          );
+                        },
+                        label: 'Add Nurse',
+                      ),
+                    ],
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: 10,
                   ),
-                  Text(age),
+                  const Divider(),
                   const SizedBox(
-                    height: 5,
+                    height: 10,
                   ),
-                  Text(id),
+                  state is NurseLoadingState
+                      ? const Center(
+                          child: CustomProgressIndicator(),
+                        )
+                      : Expanded(
+                          child: state is NurseSuccessState
+                              ? state.nurses.isNotEmpty
+                                  ? SingleChildScrollView(
+                                      child: Wrap(
+                                        spacing: 10,
+                                        runSpacing: 10,
+                                        alignment: WrapAlignment.start,
+                                        children: List<Widget>.generate(
+                                          state.nurses.length,
+                                          (index) => NurseCard(
+                                            nurseBloc: nurseBloc,
+                                            nurseDetails: state.nurses[index],
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : const Center(
+                                      child: Text('No Nurses Found!'),
+                                    )
+                              : state is NurseFailureState
+                                  ? Center(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          CustomActionButton(
+                                            iconData: Icons.replay_outlined,
+                                            onPressed: () {
+                                              nurseBloc.add(GetAllNurseEvent());
+                                            },
+                                            label: 'Retry',
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                        ),
                   const SizedBox(
-                    height: 5,
+                    height: 30,
                   ),
-                  Text(phoneno),
                 ],
-              ),
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                CustomButton(
-                  label: 'Edit',
-                  onTap: () {},
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                CustomButton(
-                  label: 'Delete',
-                  onTap: () {},
-                  buttonColor: Colors.redAccent,
-                ),
-              ],
-            ),
-          ],
+              );
+            },
+          ),
         ),
       ),
     );

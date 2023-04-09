@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:onlinediagnostic_admin/ui/screens/home_screen_sections/nurse_complaints_screen.dart';
+import 'package:onlinediagnostic_admin/ui/screens/home_screen_sections/dashboard_screen.dart';
+import 'package:onlinediagnostic_admin/ui/screens/home_screen_sections/feedbacks_screen.dart';
 import 'package:onlinediagnostic_admin/ui/screens/home_screen_sections/nurse_management_section.dart';
 import 'package:onlinediagnostic_admin/ui/screens/home_screen_sections/order_management_section.dart';
+import 'package:onlinediagnostic_admin/ui/screens/home_screen_sections/patient_complaints.dart';
 import 'package:onlinediagnostic_admin/ui/screens/home_screen_sections/test_management_section.dart';
 import 'package:onlinediagnostic_admin/ui/screens/home_screen_sections/user_management_section.dart';
+import 'package:onlinediagnostic_admin/ui/screens/login_screen.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/custom_alert_dialog.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,10 +24,26 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
+    Future.delayed(
+      const Duration(
+        milliseconds: 100,
+      ),
+      () {
+        if (Supabase.instance.client.auth.currentUser == null) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const LoginScreen(),
+            ),
+            (route) => true,
+          );
+        }
+      },
+    );
+
     tabController = TabController(
-      length: 5,
+      length: 8,
       vsync: this,
-      initialIndex: 3, //change the index to currently working section's index
+      initialIndex: 0, //change the index to currently working section's index
     );
     super.initState();
   }
@@ -36,7 +59,11 @@ class _HomeScreenState extends State<HomeScreen>
       case 3:
         return 'Nurse Management';
       case 4:
-        return 'User Management';
+        return 'Patient Management';
+      case 5:
+        return 'Complaints';
+      case 6:
+        return 'Feedbacks';
       default:
         return '';
     }
@@ -46,25 +73,62 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xFF719BE1),
+        centerTitle: true,
         title: Text(
           getName(),
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
         ),
+        elevation: 5,
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => CustomAlertDialog(
+                  title: 'Logout',
+                  message: 'Are you sure that you want to logout ?',
+                  primaryButtonLabel: 'Logout',
+                  primaryOnPressed: () async {
+                    await Supabase.instance.client.auth.signOut();
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                      ),
+                      (route) => true,
+                    );
+                  },
+                  secondaryButtonLabel: 'Cancel',
+                  secondaryOnPressed: () => Navigator.pop(context),
+                ),
+              );
+            },
+            icon: const Icon(
+              Icons.logout_outlined,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
       body: TabBarView(
         physics: const NeverScrollableScrollPhysics(),
         controller: tabController,
-        children: [
-          Container(
-            color: Colors.red,
-          ),
+        children: const [
+          DashboardScreen(),
           OrderManagementSection(),
           TestManagementSection(),
           NurseManagmentSection(),
           UserManagementSection(),
+          NurseComplaintsScreen(),
+          PatientComplaintsScreen(),
+          FeedbacksScreen(),
         ],
       ),
       drawer: Material(
-        color: Colors.blue,
+        color: const Color(0xFF719BE1),
         child: SizedBox(
           width: 300,
           child: Padding(
@@ -87,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
                 CustomDrawerButton(
                   label: "Dashboard",
-                  iconData: Icons.dashboard,
+                  iconData: Icons.dashboard_outlined,
                   onPressed: () {
                     tabController.animateTo(0);
                     setState(() {});
@@ -100,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
                 CustomDrawerButton(
                   label: "Order Management",
-                  iconData: Icons.online_prediction_rounded,
+                  iconData: Icons.shopping_basket_outlined,
                   onPressed: () {
                     tabController.animateTo(1);
                     setState(() {});
@@ -113,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
                 CustomDrawerButton(
                   label: "Test Management",
-                  iconData: Icons.text_snippet_rounded,
+                  iconData: Icons.text_snippet_outlined,
                   onPressed: () {
                     tabController.animateTo(2);
                     setState(() {});
@@ -126,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
                 CustomDrawerButton(
                   label: "Nurse Management",
-                  iconData: Icons.medication_outlined,
+                  iconData: Icons.local_hospital_outlined,
                   onPressed: () {
                     tabController.animateTo(3);
                     setState(() {});
@@ -138,14 +202,62 @@ class _HomeScreenState extends State<HomeScreen>
                   height: 15,
                 ),
                 CustomDrawerButton(
-                  label: "User Management",
-                  iconData: Icons.person,
+                  label: "Patients Management",
+                  iconData: Icons.sick_outlined,
                   onPressed: () {
                     tabController.animateTo(4);
                     setState(() {});
                     Navigator.pop(context);
                   },
                   isSelected: tabController.index == 4,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                DrawerButtonCollection(
+                  icon: Icons.dangerous_outlined,
+                  label: 'Complaints',
+                  isActive: [5, 6].contains(tabController.index),
+                  isExpanded: [5, 6].contains(tabController.index),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CustomDrawerButton(
+                        label: "Nurses",
+                        iconData: Icons.local_hospital_outlined,
+                        onPressed: () {
+                          tabController.animateTo(5);
+                          setState(() {});
+                          Navigator.pop(context);
+                        },
+                        isSelected: tabController.index == 5,
+                      ),
+                      const Divider(),
+                      CustomDrawerButton(
+                        label: "Patients",
+                        iconData: Icons.sick_outlined,
+                        onPressed: () {
+                          tabController.animateTo(6);
+                          setState(() {});
+                          Navigator.pop(context);
+                        },
+                        isSelected: tabController.index == 6,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                CustomDrawerButton(
+                  label: "Feedbacks",
+                  iconData: Icons.feedback_outlined,
+                  onPressed: () {
+                    tabController.animateTo(7);
+                    setState(() {});
+                    Navigator.pop(context);
+                  },
+                  isSelected: tabController.index == 7,
                 ),
               ],
             ),
@@ -172,7 +284,7 @@ class CustomDrawerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: isSelected ? Colors.white : Colors.blue,
+      color: isSelected ? Colors.white : const Color(0xFF719BE1),
       // shape: const RoundedRectangleBorder(
       //   borderRadius: BorderRadius.zero,
       //   side: BorderSide(
@@ -191,21 +303,127 @@ class CustomDrawerButton extends StatelessWidget {
             children: [
               Icon(
                 iconData,
-                color: isSelected ? Colors.blue : Colors.white,
+                color: isSelected ? const Color(0xFF719BE1) : Colors.white,
               ),
               const SizedBox(
                 width: 10,
               ),
               Text(
                 label,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(color: isSelected ? Colors.blue : Colors.white),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color:
+                          isSelected ? const Color(0xFF719BE1) : Colors.white,
+                      fontWeight:
+                          isSelected ? FontWeight.w500 : FontWeight.w500,
+                    ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class DrawerButtonCollection extends StatefulWidget {
+  final Widget child;
+  final IconData icon;
+  final String label;
+  final bool isExpanded, isActive;
+  const DrawerButtonCollection({
+    Key? key,
+    required this.child,
+    required this.icon,
+    required this.label,
+    this.isExpanded = false,
+    this.isActive = false,
+  }) : super(key: key);
+
+  @override
+  State<DrawerButtonCollection> createState() => _DrawerButtonCollectionState();
+}
+
+class _DrawerButtonCollectionState extends State<DrawerButtonCollection> {
+  bool _isExpanded = false;
+
+  @override
+  void initState() {
+    _isExpanded = widget.isExpanded;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSize(
+      duration: const Duration(milliseconds: 100),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Material(
+            color: widget.isActive ? Colors.white : const Color(0xFF719BE1),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(0),
+              onTap: () {
+                _isExpanded = !_isExpanded;
+                setState(() {});
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      widget.icon,
+                      size: 25,
+                      color: widget.isActive
+                          ? const Color(0xFF719BE1)
+                          : Colors.white,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Text(
+                        widget.label,
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  color: widget.isActive
+                                      ? const Color(0xFF719BE1)
+                                      : Colors.white,
+                                  fontWeight: widget.isActive
+                                      ? FontWeight.w500
+                                      : FontWeight.w500,
+                                ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Icon(
+                      _isExpanded
+                          ? Icons.keyboard_arrow_up_rounded
+                          : Icons.keyboard_arrow_down_rounded,
+                      color: widget.isActive
+                          ? const Color(0xFF719BE1)
+                          : Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          _isExpanded
+              ? Padding(
+                  padding: const EdgeInsets.only(
+                    top: 10,
+                    left: 10,
+                  ),
+                  child: widget.child,
+                )
+              : const SizedBox(),
+        ],
       ),
     );
   }

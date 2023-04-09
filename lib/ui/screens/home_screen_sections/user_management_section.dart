@@ -1,99 +1,147 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onlinediagnostic_admin/blocs/patient/patient_bloc.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/custom_action_button.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/custom_alert_dialog.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/custom_progress_indicator.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/custom_search.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/patient_management/add_edit_patient_dialog.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/patient_management/patient_card.dart';
 
-class UserManagementSection extends StatelessWidget {
+class UserManagementSection extends StatefulWidget {
   const UserManagementSection({super.key});
+
+  @override
+  State<UserManagementSection> createState() => _UserManagementSectionState();
+}
+
+class _UserManagementSectionState extends State<UserManagementSection> {
+  PatientBloc patientBloc = PatientBloc();
+
+  @override
+  void initState() {
+    patientBloc.add(GetAllPatientEvent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
         width: 1000,
-        child: ListView(
-          children: [
-            MemberCard(
-              name: 'John',
-              age: '35',
-              address: 'K.V House Ozhakrome,p.o morazha',
-              test: 'Haemoglobin',
-            ),
-            MemberCard(
-                name: 'Rani',
-                age: '29',
-                address: 'Rani Villas Kanul,p.o.Morazha ',
-                test: ' Test 1 Blood Pressure,Test 2 Cholestrol'),
-            MemberCard(
-                name: 'Lena',
-                age: '15',
-                address: 'Kunnul House Vellikeel,p.o.cherukunnu',
-                test: 'Test 1 Blood Count'),
-            MemberCard(
-                name: 'Roshan',
-                age: '24',
-                address: 'Roshni Vilas Keecheri p.o.keecheri',
-                test: 'Test 1 Glucose'),
-            MemberCard(
-                name: 'Joseph',
-                age: '65',
-                address: 'Kalyani Vilas Kuthuparamb p.o.kuthuparamb',
-                test: 'Test 1 TSH \nTest 2 Cholostrol \nTest 3 Glucose'),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class MemberCard extends StatelessWidget {
-  final String name, age, address, test;
-  const MemberCard({
-    Key? key,
-    required this.name,
-    required this.age,
-    required this.address,
-    required this.test,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(15),
-          child: Material(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                color: Colors.black26,
-                width: 1,
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: BlocProvider<PatientBloc>.value(
+          value: patientBloc,
+          child: BlocConsumer<PatientBloc, PatientState>(
+            listener: (context, state) {
+              if (state is PatientFailureState) {
+                showDialog(
+                  context: context,
+                  builder: (context) => CustomAlertDialog(
+                    title: 'Failure',
+                    message: state.message,
+                    primaryButtonLabel: 'Ok',
+                  ),
+                );
+              }
+            },
+            builder: (context, state) {
+              return Column(
                 children: [
+                  const SizedBox(
+                    height: 30,
+                  ),
                   Row(
                     children: [
-                      Text(
-                        name,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
+                      Expanded(
+                        child: CustomSearch(
+                          onSearch: (search) {
+                            patientBloc.add(
+                              GetAllPatientEvent(
+                                query: search,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      CustomActionButton(
+                        iconData: Icons.add,
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) =>
+                                BlocProvider<PatientBloc>.value(
+                              value: patientBloc,
+                              child: const AddEditPatientDialog(),
+                            ),
+                          );
+                        },
+                        label: 'Add Patient',
                       ),
                     ],
                   ),
-                  Text(age),
-                  Text(address),
-                  Wrap(
-                    children: [],
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Divider(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  state is PatientLoadingState
+                      ? const Center(
+                          child: CustomProgressIndicator(),
+                        )
+                      : Expanded(
+                          child: state is PatientSuccessState
+                              ? state.patients.isNotEmpty
+                                  ? SingleChildScrollView(
+                                      child: Wrap(
+                                        spacing: 20,
+                                        runSpacing: 20,
+                                        alignment: WrapAlignment.start,
+                                        children: List<Widget>.generate(
+                                          state.patients.length,
+                                          (index) => PatientCard(
+                                            patientDetails:
+                                                state.patients[index],
+                                            patientBloc: patientBloc,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : const Center(
+                                      child: Text('No Patients Found!'),
+                                    )
+                              : state is PatientFailureState
+                                  ? Center(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          CustomActionButton(
+                                            iconData: Icons.replay_outlined,
+                                            onPressed: () {
+                                              patientBloc
+                                                  .add(GetAllPatientEvent());
+                                            },
+                                            label: 'Retry',
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                        ),
+                  const SizedBox(
+                    height: 30,
                   ),
                 ],
-              ),
-            ),
+              );
+            },
           ),
         ),
-      ],
+      ),
     );
   }
 }
