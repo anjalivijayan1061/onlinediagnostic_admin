@@ -80,7 +80,9 @@ class ComplaintCard extends StatelessWidget {
                     child: LabelWithText(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       label: 'Phone Number',
-                      text: complaintDetails['complaint']['phone'],
+                      text: complaintDetails['complaint']['phone'] == ''
+                          ? 'Not added'
+                          : complaintDetails['complaint']['phone'],
                     ),
                   ),
                 ],

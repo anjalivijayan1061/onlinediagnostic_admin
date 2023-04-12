@@ -46,6 +46,7 @@ class NurseBloc extends Bloc<NurseEvent, NurseState> {
             AdminUserAttributes(
               email: event.email,
               password: event.password,
+              phone: event.phone,
               userMetadata: {
                 'status': 'active',
               },

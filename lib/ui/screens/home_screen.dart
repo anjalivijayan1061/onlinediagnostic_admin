@@ -61,9 +61,9 @@ class _HomeScreenState extends State<HomeScreen>
       case 4:
         return 'Patient Management';
       case 5:
-        return 'Nurses Complaints';
+        return 'Nurse Complaints';
       case 6:
-        return 'Patients Complaints';
+        return 'Patient Complaints';
       case 7:
         return 'Suggestions';
       default:
@@ -225,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen>
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       CustomDrawerButton(
-                        label: "Nurses",
+                        label: "Nurse",
                         iconData: Icons.local_hospital_outlined,
                         onPressed: () {
                           tabController.animateTo(5);
@@ -234,9 +234,11 @@ class _HomeScreenState extends State<HomeScreen>
                         },
                         isSelected: tabController.index == 5,
                       ),
-                      const Divider(),
+                      const Divider(
+                        color: Colors.white60,
+                      ),
                       CustomDrawerButton(
-                        label: "Patients",
+                        label: "Patient",
                         iconData: Icons.sick_outlined,
                         onPressed: () {
                           tabController.animateTo(6);
