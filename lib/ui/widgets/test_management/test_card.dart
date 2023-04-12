@@ -64,7 +64,7 @@ class TestCard extends StatelessWidget {
                     child: LabelWithText(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       label: 'Price',
-                      text: testDetails['price'].toString(),
+                      text: '₹ ${testDetails['price'].toString()}',
                     ),
                   ),
                 ],

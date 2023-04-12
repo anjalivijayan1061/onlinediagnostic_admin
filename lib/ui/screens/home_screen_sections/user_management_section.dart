@@ -46,6 +46,7 @@ class _UserManagementSectionState extends State<UserManagementSection> {
             },
             builder: (context, state) {
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
                     height: 30,

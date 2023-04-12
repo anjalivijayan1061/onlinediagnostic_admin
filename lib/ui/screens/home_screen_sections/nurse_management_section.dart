@@ -46,6 +46,7 @@ class _NurseManagmentSectionState extends State<NurseManagmentSection> {
             },
             builder: (context, state) {
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
                     height: 50,

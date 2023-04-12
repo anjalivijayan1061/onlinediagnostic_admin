@@ -46,6 +46,7 @@ class _TestManagementSectionState extends State<TestManagementSection> {
             },
             builder: (context, state) {
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
                     height: 30,

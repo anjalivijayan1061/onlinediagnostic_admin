@@ -95,13 +95,13 @@ class _HomeScreenState extends State<HomeScreen>
                   message: 'Are you sure that you want to logout ?',
                   primaryButtonLabel: 'Logout',
                   primaryOnPressed: () async {
-                    await Supabase.instance.client.auth.signOut();
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                         builder: (context) => const LoginScreen(),
                       ),
                       (route) => true,
                     );
+                    await Supabase.instance.client.auth.signOut();
                   },
                   secondaryButtonLabel: 'Cancel',
                   secondaryOnPressed: () => Navigator.pop(context),
@@ -252,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen>
                   height: 15,
                 ),
                 CustomDrawerButton(
-                  label: "Feedbacks",
+                  label: "Suggestions",
                   iconData: Icons.feedback_outlined,
                   onPressed: () {
                     tabController.animateTo(7);

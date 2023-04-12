@@ -220,7 +220,7 @@ class Branding extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
+        const Icon(
           Icons.biotech,
           color: Colors.black87,
           size: 50,
@@ -230,7 +230,7 @@ class Branding extends StatelessWidget {
         ),
         Text(
           'Online Diagnostics',
-          style: Theme.of(context).textTheme.subtitle1!.copyWith(
+          style: Theme.of(context).textTheme.labelLarge!.copyWith(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
