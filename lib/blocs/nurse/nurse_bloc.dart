@@ -49,6 +49,7 @@ class NurseBloc extends Bloc<NurseEvent, NurseState> {
               userMetadata: {
                 'status': 'active',
               },
+              emailConfirm: true,
             ),
           );
           if (userDetails.user != null) {
