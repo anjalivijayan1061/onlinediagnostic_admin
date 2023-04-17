@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:onlinediagnostic_admin/blocs/patient/patient_bloc.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/custom_action_button.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/custom_alert_dialog.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/custom_card.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/custom_map.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/label_with_text.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/patient_management/add_edit_patient_dialog.dart';
@@ -23,14 +24,7 @@ class PatientCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 320,
-      child: Material(
-        color: Colors.white,
-        shape: const RoundedRectangleBorder(
-          side: BorderSide(
-            color: Colors.black26,
-            width: 1,
-          ),
-        ),
+      child: CustomCard(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
           child: Column(

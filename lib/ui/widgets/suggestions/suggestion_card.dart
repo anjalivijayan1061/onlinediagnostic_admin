@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/custom_card.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/label_with_text.dart';
 import 'package:onlinediagnostic_admin/util/get_date.dart';
 
@@ -13,13 +14,7 @@ class SuggestionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 350,
-      child: Material(
-        color: Colors.white,
-        shape: const RoundedRectangleBorder(
-          side: BorderSide(
-            color: Colors.grey,
-          ),
-        ),
+      child: CustomCard(
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 10,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class CustomCard extends StatefulWidget {
   final Widget child;
   final Color? color;
+  final Color hoverBorderColor;
   final double borderRadius;
   final Function()? onPressed;
 
@@ -11,6 +12,7 @@ class CustomCard extends StatefulWidget {
     required this.child,
     this.onPressed,
     this.color = Colors.white,
+    this.hoverBorderColor = Colors.blue,
     this.borderRadius = 0,
   });
 
@@ -35,18 +37,9 @@ class CustomCardState extends State<CustomCard> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(widget.borderRadius),
             color: widget.color,
-            boxShadow: _isHovering
-                ? []
-                : [
-                    const BoxShadow(
-                      color: Colors.black26,
-                      offset: Offset(1, 1),
-                      blurRadius: 3,
-                    )
-                  ],
             border: Border.all(
               width: 1,
-              color: Colors.black26,
+              color: _isHovering ? widget.hoverBorderColor : Colors.grey[300]!,
             ),
           ),
           child: widget.child,

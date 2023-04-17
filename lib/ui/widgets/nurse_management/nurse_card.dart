@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onlinediagnostic_admin/blocs/nurse/nurse_bloc.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/custom_action_button.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/custom_alert_dialog.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/custom_card.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/label_with_text.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/nurse_management/add_edit_nurse_dialog.dart';
 import 'package:onlinediagnostic_admin/util/get_age.dart';
@@ -18,14 +19,7 @@ class NurseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 320,
-      child: Material(
-        color: Colors.white,
-        shape: const RoundedRectangleBorder(
-          side: BorderSide(
-            color: Colors.black26,
-            width: 1,
-          ),
-        ),
+      child: CustomCard(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
           child: Column(

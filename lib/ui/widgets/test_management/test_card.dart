@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onlinediagnostic_admin/blocs/manage_test/manage_test_bloc.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/custom_action_button.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/custom_alert_dialog.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/custom_card.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/label_with_text.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/test_management/add_edit_test_dialog.dart';
 
@@ -19,14 +20,7 @@ class TestCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 320,
-      child: Material(
-        color: Colors.white,
-        shape: const RoundedRectangleBorder(
-          side: BorderSide(
-            color: Colors.black26,
-            width: 1,
-          ),
-        ),
+      child: CustomCard(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
           child: Column(

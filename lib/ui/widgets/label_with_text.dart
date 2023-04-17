@@ -17,17 +17,17 @@ class LabelWithText extends StatelessWidget {
       children: [
         Text(
           label,
-          style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                color: Colors.black54,
-                fontWeight: FontWeight.w500,
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                color: Colors.black38,
+                fontWeight: FontWeight.w600,
               ),
         ),
         const SizedBox(
-          height: 2,
+          height: 5,
         ),
         Text(
           text,
-          style: Theme.of(context).textTheme.labelLarge!.copyWith(
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Colors.black,
                 fontWeight: FontWeight.w700,
               ),

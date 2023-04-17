@@ -5,7 +5,7 @@ class CustomButton extends StatelessWidget {
   final String label;
   final Function() onTap;
   final IconData? icon;
-  final Color? buttonColor, iconColor, labelColor;
+  final Color? buttonColor, iconColor, labelColor, hoverBorderColor;
   final double elevation;
   final bool isLoading;
   const CustomButton({
@@ -18,12 +18,14 @@ class CustomButton extends StatelessWidget {
     this.labelColor,
     this.elevation = 0,
     this.isLoading = false,
+    this.hoverBorderColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CustomCard(
       color: buttonColor ?? Colors.white,
+      hoverBorderColor: hoverBorderColor ?? Colors.blue,
       child: InkWell(
         onTap: isLoading ? null : onTap,
         borderRadius: BorderRadius.circular(0),
@@ -35,7 +37,7 @@ class CustomButton extends StatelessWidget {
             bottom: 12.5,
           ),
           child: Row(
-            mainAxisSize: MainAxisSize.max,
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: icon != null
                 ? MainAxisAlignment.spaceBetween
                 : MainAxisAlignment.center,

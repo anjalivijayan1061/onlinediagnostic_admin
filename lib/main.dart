@@ -23,6 +23,16 @@ class MyApp extends StatelessWidget {
       title: 'Admin',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        inputDecorationTheme: ThemeData.light().inputDecorationTheme.copyWith(
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 10,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(0),
+                borderSide: BorderSide.none,
+              ),
+            ),
       ),
       home: const LoginScreen(),
     );

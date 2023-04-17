@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen>
     tabController = TabController(
       length: 8,
       vsync: this,
-      initialIndex: 0, //change the index to currently working section's index
+      initialIndex: 1, //change the index to currently working section's index
     );
     super.initState();
   }
@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF719BE1),
+        backgroundColor: Colors.lightBlueAccent[700],
         centerTitle: true,
         title: Text(
           getName(),
@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen>
                 fontWeight: FontWeight.w500,
               ),
         ),
-        elevation: 5,
+        elevation: 1,
         actions: [
           IconButton(
             onPressed: () {
@@ -130,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen>
         ],
       ),
       drawer: Material(
-        color: const Color(0xFF719BE1),
+        color: Colors.lightBlueAccent[700],
         child: SizedBox(
           width: 300,
           child: Padding(
@@ -288,7 +288,7 @@ class CustomDrawerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: isSelected ? Colors.white : const Color(0xFF719BE1),
+      color: isSelected ? Colors.white : Colors.lightBlueAccent[700],
       // shape: const RoundedRectangleBorder(
       //   borderRadius: BorderRadius.zero,
       //   side: BorderSide(
@@ -307,7 +307,7 @@ class CustomDrawerButton extends StatelessWidget {
             children: [
               Icon(
                 iconData,
-                color: isSelected ? const Color(0xFF719BE1) : Colors.white,
+                color: isSelected ? Colors.lightBlueAccent[700] : Colors.white,
               ),
               const SizedBox(
                 width: 10,
@@ -315,8 +315,9 @@ class CustomDrawerButton extends StatelessWidget {
               Text(
                 label,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color:
-                          isSelected ? const Color(0xFF719BE1) : Colors.white,
+                      color: isSelected
+                          ? Colors.lightBlueAccent[700]
+                          : Colors.white,
                       fontWeight:
                           isSelected ? FontWeight.w500 : FontWeight.w500,
                     ),
@@ -364,7 +365,7 @@ class _DrawerButtonCollectionState extends State<DrawerButtonCollection> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Material(
-            color: widget.isActive ? Colors.white : const Color(0xFF719BE1),
+            color: widget.isActive ? Colors.white : Colors.lightBlueAccent[700],
             child: InkWell(
               borderRadius: BorderRadius.circular(0),
               onTap: () {
@@ -382,7 +383,7 @@ class _DrawerButtonCollectionState extends State<DrawerButtonCollection> {
                       widget.icon,
                       size: 25,
                       color: widget.isActive
-                          ? const Color(0xFF719BE1)
+                          ? Colors.lightBlueAccent[700]
                           : Colors.white,
                     ),
                     const SizedBox(
@@ -394,7 +395,7 @@ class _DrawerButtonCollectionState extends State<DrawerButtonCollection> {
                         style:
                             Theme.of(context).textTheme.titleMedium?.copyWith(
                                   color: widget.isActive
-                                      ? const Color(0xFF719BE1)
+                                      ? Colors.lightBlueAccent[700]
                                       : Colors.white,
                                   fontWeight: widget.isActive
                                       ? FontWeight.w500
@@ -410,7 +411,7 @@ class _DrawerButtonCollectionState extends State<DrawerButtonCollection> {
                           ? Icons.keyboard_arrow_up_rounded
                           : Icons.keyboard_arrow_down_rounded,
                       color: widget.isActive
-                          ? const Color(0xFF719BE1)
+                          ? Colors.lightBlueAccent[700]
                           : Colors.white,
                     ),
                   ],
