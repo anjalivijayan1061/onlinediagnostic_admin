@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
+import 'package:onlinediagnostic_admin/blocs/patient/patient_bloc.dart';
 import 'package:onlinediagnostic_admin/ui/screens/select_nurse_screen.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/custom_action_button.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/custom_alert_dialog.dart';
@@ -10,6 +11,7 @@ import 'package:onlinediagnostic_admin/ui/widgets/custom_card.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/custom_date_picker.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/custom_search.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/label_with_text.dart';
+import 'package:onlinediagnostic_admin/ui/widgets/patient_management/patient_card.dart';
 import 'package:onlinediagnostic_admin/util/get_age.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -227,7 +229,32 @@ class OrderCard extends StatelessWidget {
                     hoverColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => Dialog(
+                          child: SizedBox(
+                            width: 1000,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: PatientCard(
+                                        readOnly: true,
+                                        patientDetails: orderDetails['patient'],
+                                        patientBloc: PatientBloc(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                     child: Text(
                       orderDetails['patient']['name'],
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(

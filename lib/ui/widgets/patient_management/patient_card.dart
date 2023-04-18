@@ -13,11 +13,13 @@ import 'package:onlinediagnostic_admin/util/get_age.dart';
 class PatientCard extends StatelessWidget {
   final Map<String, dynamic> patientDetails;
   final PatientBloc patientBloc;
+  final bool readOnly;
 
   const PatientCard({
     Key? key,
     required this.patientDetails,
     required this.patientBloc,
+    this.readOnly = false,
   }) : super(key: key);
 
   @override
@@ -154,60 +156,61 @@ class PatientCard extends StatelessWidget {
                     ? Colors.blue
                     : Colors.grey,
               ),
-              const Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: CustomActionButton(
-                      iconData: Icons.delete,
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (_) => CustomAlertDialog(
-                            title: 'Are you sure?',
-                            message:
-                                'Are you sure you want to delete this patient? any data associated with this patient will be deleted as well',
-                            primaryButtonLabel: 'Delete',
-                            primaryOnPressed: () {
-                              patientBloc.add(
-                                DeletePatientEvent(
-                                  patientId: patientDetails['id'],
-                                ),
-                              );
-                              Navigator.pop(context);
-                            },
-                            secondaryButtonLabel: 'Cancel',
-                          ),
-                        );
-                      },
-                      label: 'Delete',
-                      color: Colors.red,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: CustomActionButton(
-                      iconData: Icons.edit,
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => BlocProvider.value(
-                            value: patientBloc,
-                            child: AddEditPatientDialog(
-                              patientDetails: patientDetails,
+              if (!readOnly) const Divider(),
+              if (!readOnly)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: CustomActionButton(
+                        iconData: Icons.delete,
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (_) => CustomAlertDialog(
+                              title: 'Are you sure?',
+                              message:
+                                  'Are you sure you want to delete this patient? any data associated with this patient will be deleted as well',
+                              primaryButtonLabel: 'Delete',
+                              primaryOnPressed: () {
+                                patientBloc.add(
+                                  DeletePatientEvent(
+                                    patientId: patientDetails['id'],
+                                  ),
+                                );
+                                Navigator.pop(context);
+                              },
+                              secondaryButtonLabel: 'Cancel',
                             ),
-                          ),
-                        );
-                      },
-                      label: 'Edit',
-                      color: Colors.teal,
+                          );
+                        },
+                        label: 'Delete',
+                        color: Colors.red,
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: CustomActionButton(
+                        iconData: Icons.edit,
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => BlocProvider.value(
+                              value: patientBloc,
+                              child: AddEditPatientDialog(
+                                patientDetails: patientDetails,
+                              ),
+                            ),
+                          );
+                        },
+                        label: 'Edit',
+                        color: Colors.teal,
+                      ),
+                    ),
+                  ],
+                ),
             ],
           ),
         ),
