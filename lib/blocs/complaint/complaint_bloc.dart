@@ -23,18 +23,8 @@ class ComplaintBloc extends Bloc<ComplaintEvent, ComplaintState> {
                 'created_at',
               );
 
-          List<User> users =
-              await supabaseClient.auth.admin.listUsers(perPage: 1000);
-
           List<Map<String, dynamic>> complaints = temp.map((e) {
             Map<String, dynamic> element = e as Map<String, dynamic>;
-            User? user =
-                users.firstOrNull((user) => user.id == element['user_id']);
-
-            element['status'] =
-                user != null ? user.userMetadata!['status'] : '';
-            element['email'] = user != null ? user.email : '';
-            element['phone'] = user != null ? user.phone : '';
 
             return element;
           }).toList();
@@ -42,10 +32,14 @@ class ComplaintBloc extends Bloc<ComplaintEvent, ComplaintState> {
           Map<String, dynamic> complaintWithTestMap = {};
 
           for (Map<String, dynamic> complaint in complaints) {
-            Map<String, dynamic> test = await subQueryTable
-                .select()
-                .eq('id', complaint['test_id'])
-                .single();
+            List<dynamic> tempTest = await supabaseClient.rpc(
+              'get_test_bookings',
+              params: {
+                'search_test_booking_id': complaint['test_booking_id'],
+              },
+            );
+
+            Map<String, dynamic> test = tempTest.first as Map<String, dynamic>;
 
             complaintWithTestMap = {
               'complaint': complaint,
@@ -66,18 +60,8 @@ class ComplaintBloc extends Bloc<ComplaintEvent, ComplaintState> {
                 'created_at',
               );
 
-          List<User> users =
-              await supabaseClient.auth.admin.listUsers(perPage: 1000);
-
           List<Map<String, dynamic>> complaints = temp.map((e) {
             Map<String, dynamic> element = e as Map<String, dynamic>;
-            User? user =
-                users.firstOrNull((user) => user.id == element['user_id']);
-
-            element['status'] =
-                user != null ? user.userMetadata!['status'] : '';
-            element['email'] = user != null ? user.email : '';
-            element['phone'] = user != null ? user.phone : '';
 
             return element;
           }).toList();
@@ -85,10 +69,14 @@ class ComplaintBloc extends Bloc<ComplaintEvent, ComplaintState> {
           Map<String, dynamic> complaintWithTestMap = {};
 
           for (Map<String, dynamic> complaint in complaints) {
-            Map<String, dynamic> test = await subQueryTable
-                .select()
-                .eq('id', complaint['test_id'])
-                .single();
+            List<dynamic> tempTest = await supabaseClient.rpc(
+              'get_test_bookings',
+              params: {
+                'search_test_booking_id': complaint['test_booking_id'],
+              },
+            );
+
+            Map<String, dynamic> test = tempTest.first as Map<String, dynamic>;
 
             complaintWithTestMap = {
               'complaint': complaint,

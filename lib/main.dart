@@ -9,14 +9,14 @@ void main() async {
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5xZ211cW1mYmhxcWJhdmlqeXpxIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODA3OTc3MSwiZXhwIjoxOTkzNjU1NzcxfQ.NtTvGsbaD3ZonuktBauJaxkb9ci5Xu3nj44e1MtzwWE',
   );
 
-  // dynamic schema = await Supabase.instance.client.rpc(
-  //   'get_table_info',
-  //   params: {
-  //     'schema_name': 'public',
-  //   },
-  // );
+  dynamic schema = await Supabase.instance.client.rpc(
+    'get_table_info',
+    params: {
+      'schema_name': 'public',
+    },
+  );
 
-  // print(schema.toString());
+  print(schema.toString());
 
   runApp(const MyApp());
 }
