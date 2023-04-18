@@ -63,11 +63,12 @@ class CustomAlertDialog extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 5),
-                  Text(
-                    message,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
+                  if (message.isNotEmpty) const SizedBox(height: 5),
+                  if (message.isNotEmpty)
+                    Text(
+                      message,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   content != null
                       ? const Divider(
                           thickness: 1,

@@ -59,6 +59,7 @@ class CustomActionButton extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                     ),
+                    const SizedBox(width: 5),
                     Icon(
                       iconData,
                       color: color,

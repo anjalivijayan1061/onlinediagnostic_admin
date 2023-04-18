@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onlinediagnostic_admin/ui/screens/home_screen_sections/order_management_section.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/custom_action_button.dart';
 import 'package:onlinediagnostic_admin/ui/widgets/dashcard.dart';
 
@@ -18,20 +19,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CustomActionButton(
-                  mainAxisSize: MainAxisSize.min,
-                  label: 'Reload',
-                  onPressed: () {},
-                  iconData: Icons.refresh_outlined,
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 40),
             Wrap(
               spacing: 20,
               runSpacing: 20,
@@ -57,6 +45,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   value: '16',
                 ),
               ],
+            ),
+            const Expanded(
+              child: OrderManagementSection(
+                fromDashboard: true,
+              ),
             ),
           ],
         ),

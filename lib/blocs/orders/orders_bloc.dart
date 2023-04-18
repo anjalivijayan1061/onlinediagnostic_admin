@@ -12,6 +12,7 @@ part 'orders_event.dart';
 part 'orders_state.dart';
 
 class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
+  String lastStatus = 'pending';
   OrdersBloc() : super(OrdersInitialState()) {
     on<OrdersEvent>((event, emit) async {
       emit(OrdersLoadingState());
@@ -21,11 +22,16 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
             supabaseClient.from('test_bookings');
         SupabaseQueryBuilder testBookingItems =
             supabaseClient.from('test_booking_item');
+
         if (event is GetOrdersEvent) {
+          if (event.status != null) {
+            lastStatus = event.status!;
+          }
           List<dynamic> tempOrders = await supabaseClient.rpc(
             'get_test_bookings',
             params: {
-              'search_status': event.status,
+              'search_status': lastStatus,
+              'search_query': event.query,
               'search_user_id': event.userId,
               'search_nurse_id': event.nurseId,
               'search_patient_id': event.patientId,
@@ -106,6 +112,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         } else if (event is ChangeOrderTestStatusEvent) {
           await testBookingItems
               .update({'status': event.status}).eq('id', event.testBookingId);
+          add(GetOrdersEvent());
+        } else if (event is MarkTestsAddedOrderEvent) {
+          await testBookings.update({'can_pay': true}).eq('id', event.orderId);
           add(GetOrdersEvent());
         } else if (event is ChangeOrderStatusEvent) {
           await testBookings

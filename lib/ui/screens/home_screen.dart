@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen>
     tabController = TabController(
       length: 8,
       vsync: this,
-      initialIndex: 1, //change the index to currently working section's index
+      initialIndex: 0, //change the index to currently working section's index
     );
     super.initState();
   }

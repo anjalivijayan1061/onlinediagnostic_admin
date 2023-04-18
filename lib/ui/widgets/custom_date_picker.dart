@@ -6,10 +6,12 @@ import 'package:intl/intl.dart';
 class CustomDatePicker extends StatefulWidget {
   final Function(DateTime) onPick;
   final DateTime? defaultDate;
+  final Function()? onClear;
   const CustomDatePicker({
     super.key,
     required this.onPick,
     this.defaultDate,
+    this.onClear,
   });
 
   @override
@@ -42,21 +44,38 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
           horizontal: 15,
           vertical: 15,
         ),
-        child: Align(
-          alignment:
-              pickedDate != null ? Alignment.center : Alignment.centerLeft,
-          child: Text(
-            pickedDate != null
-                ? DateFormat('dd/MM/yyyy').format(pickedDate!)
-                : widget.defaultDate != null
-                    ? DateFormat('dd/MM/yyyy').format(widget.defaultDate!)
-                    : 'Select Date',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: pickedDate != null ? Colors.black54 : Colors.black45,
-                  fontWeight:
-                      pickedDate != null ? FontWeight.bold : FontWeight.normal,
+        child: Row(
+          children: [
+            Text(
+              pickedDate != null
+                  ? DateFormat('dd/MM/yyyy').format(pickedDate!)
+                  : widget.defaultDate != null
+                      ? DateFormat('dd/MM/yyyy').format(widget.defaultDate!)
+                      : 'Select Date',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: pickedDate != null ? Colors.black54 : Colors.black45,
+                    fontWeight: pickedDate != null
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                  ),
+            ),
+            if (widget.onClear != null && pickedDate != null)
+              InkWell(
+                onTap: () {
+                  pickedDate = null;
+                  setState(() {});
+                  widget.onClear!();
+                },
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Icon(
+                    Icons.clear,
+                    color: Colors.grey,
+                    size: 18,
+                  ),
                 ),
-          ),
+              )
+          ],
         ),
       ),
     );

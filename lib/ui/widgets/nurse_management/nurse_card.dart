@@ -11,8 +11,12 @@ import 'package:onlinediagnostic_admin/util/get_age.dart';
 class NurseCard extends StatelessWidget {
   final NurseBloc nurseBloc;
   final Map<String, dynamic> nurseDetails;
+  final Function(Map<String, dynamic>)? onSelect;
   const NurseCard(
-      {Key? key, required this.nurseDetails, required this.nurseBloc})
+      {Key? key,
+      required this.nurseDetails,
+      required this.nurseBloc,
+      this.onSelect})
       : super(key: key);
 
   @override
@@ -173,6 +177,16 @@ class NurseCard extends StatelessWidget {
                     ? Colors.orange
                     : Colors.green,
               ),
+              if (onSelect != null) const Divider(),
+              if (onSelect != null)
+                CustomActionButton(
+                  iconData: Icons.done,
+                  onPressed: () {
+                    onSelect!(nurseDetails);
+                  },
+                  label: 'Select',
+                  color: Colors.blue,
+                ),
             ],
           ),
         ),

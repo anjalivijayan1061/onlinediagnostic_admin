@@ -4,17 +4,18 @@ part of 'orders_bloc.dart';
 abstract class OrdersEvent {}
 
 class GetOrdersEvent extends OrdersEvent {
-  final String status;
-  final String? userId, nurseId;
+  final String? status;
+  final String? userId, nurseId, query;
   final int? patientId;
   final DateTime? date;
 
   GetOrdersEvent({
-    this.status = 'pending',
+    this.status,
     this.patientId,
     this.userId,
     this.nurseId,
     this.date,
+    this.query,
   });
 }
 
@@ -47,6 +48,14 @@ class ChangeOrderStatusEvent extends OrdersEvent {
   ChangeOrderStatusEvent({
     required this.orderId,
     required this.status,
+  });
+}
+
+class MarkTestsAddedOrderEvent extends OrdersEvent {
+  final int orderId;
+
+  MarkTestsAddedOrderEvent({
+    required this.orderId,
   });
 }
 

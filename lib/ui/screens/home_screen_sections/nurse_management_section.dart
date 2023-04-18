@@ -9,7 +9,8 @@ import 'package:onlinediagnostic_admin/ui/widgets/nurse_management/add_edit_nurs
 import 'package:onlinediagnostic_admin/ui/widgets/nurse_management/nurse_card.dart';
 
 class NurseManagmentSection extends StatefulWidget {
-  const NurseManagmentSection({super.key});
+  final Function(Map<String, dynamic>)? onSelect;
+  const NurseManagmentSection({super.key, this.onSelect});
 
   @override
   State<NurseManagmentSection> createState() => _NurseManagmentSectionState();
@@ -100,6 +101,7 @@ class _NurseManagmentSectionState extends State<NurseManagmentSection> {
                                         children: List<Widget>.generate(
                                           state.nurses.length,
                                           (index) => NurseCard(
+                                            onSelect: widget.onSelect,
                                             nurseBloc: nurseBloc,
                                             nurseDetails: state.nurses[index],
                                           ),
