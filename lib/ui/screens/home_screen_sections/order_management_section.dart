@@ -291,9 +291,11 @@ class OrderCard extends StatelessWidget {
                       ),
                       LabelWithText(
                         label: 'Number of Tests',
-                        text: orderDetails['test_booking_items']
-                            .length
-                            .toString(),
+                        text: orderDetails['test_booking_items'] != null
+                            ? orderDetails['test_booking_items']
+                                .length
+                                .toString()
+                            : '-',
                       ),
                     ],
                   ),
